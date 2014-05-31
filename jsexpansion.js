@@ -271,12 +271,20 @@ Array.prototype.random = function(){
 
 ////////////////////O//B//J//E//C//T///////////////////
 
-Object.prototype.maxAttr = function (func) {
+Object.prototype.maxAttr = function (func, mult) {
+
+	if(!mult){
+		mult = {};
+		for (var prop in this)
+			if (typeof this[prop] !== 'function')
+	      		mult[prop]=1;
+	}
+
 
 	var sortable = [];
 	for (var prop in this)
 		if (typeof this[prop] !== 'function')
-      		sortable.push([prop, this[prop]])
+      		sortable.push([prop, mult[prop] * this[prop]])
 
     var back = [];
 	sortable.sort(func).forEach(function(tmb){

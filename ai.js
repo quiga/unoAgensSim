@@ -177,7 +177,17 @@ module.exports = function () {
 				strategy.strategyList.forEach(function(act){
 					results[act] = strategy[act](player.cards, col, val);
 				});
-
+/*
+				var dec = {};
+				var cardNum = (player.cards.length / 10);
+				var activePlayer = players.countBy(function(act){
+					return act.cards.length > 0;
+				}) / 6;
+				dec['bastard'] = -1 * 4 * cardNum + 2 * activePlayer;
+				dec['maxColor'] = -1 * 3 * cardNum + 4 * activePlayer;
+				dec['maxNumber'] = -1 * 2 * cardNum + 3 * activePlayer;
+				dec['randomCard'] = -1 * 1 * cardNum + 1 * activePlayer;
+*/
 				var pref = db["strategy"].maxAttr(function(a, b) {return b[1] - a[1]});
 				
 				var strategyId = undefined;
@@ -235,8 +245,6 @@ module.exports = function () {
 			var onPut = function (data) {
 				if (data.cards.prev === id){
 					var my = putHistory.last();
-					// pozitív / negatív
-
 					if(strategy.strategyList.indexOf(lastCardStrategy) >= 0){
 						if(data.cards.color === my.color && data.cards.value > 0 && data.cards.value < 10)
 							db["strategy"][lastCardStrategy]++;
